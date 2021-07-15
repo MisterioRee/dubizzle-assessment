@@ -13,6 +13,7 @@ import { Comment } from '@styled-icons/boxicons-regular/Comment';
 import { GitRepoForked } from '@styled-icons/boxicons-regular/GitRepoForked';
 import { StarFill } from '@styled-icons/bootstrap/StarFill';
 
+
 //Styled Icons common Style  
 const sharedIconStyle = css`
   color: #00f;
@@ -20,6 +21,13 @@ const sharedIconStyle = css`
   margin-bottom: 14px;
   margin-right: 4px;
 `;
+
+//Defining Icons
+const CodeIcon = styled(Code)`${sharedIconStyle}`;
+const CommentsIcon = styled(Comment)`${sharedIconStyle}`;
+const ForkIcon = styled(GitRepoForked)`${sharedIconStyle}`;
+const StarIcon = styled(StarFill)`${sharedIconStyle}`;
+
 
 //Wrapper - Container
 const StyledGist = styled.div`
@@ -64,11 +72,6 @@ const Date = styled.div`
 `;
 
 function Gist({ gistItem }) {
-  //Defining Icons
-  const CodeIcon = styled(Code)`${sharedIconStyle}`;
-  const CommentsIcon = styled(Comment)`${sharedIconStyle}`;
-  const ForkIcon = styled(GitRepoForked)`${sharedIconStyle}`;
-  const StarIcon = styled(StarFill)`${sharedIconStyle}`;
 
 
   // format files
