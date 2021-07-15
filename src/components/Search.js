@@ -1,9 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Octicon from "react-octicon";
 
 const Search = ({ filterGist, onChange, value }) => {
-  // on press enter filter username
+  // on press enter filter gist by username
   function filterList(e) {
     if (e.keyCode === 13) {
       filterGist();
@@ -49,5 +50,9 @@ const Input = styled.input`
     outline: 0;
   }
 `;
-
+Search.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  filterGist: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 export default Search;

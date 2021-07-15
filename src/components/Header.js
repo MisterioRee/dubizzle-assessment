@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import Octicon from "react-octicon";
 import Search from "./Search";
@@ -22,5 +23,10 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-
+// param type checking
+Header.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  filterGist: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 export default Header;

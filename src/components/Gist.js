@@ -1,134 +1,79 @@
-//Styled Component
-import styled, { css } from 'styled-components'
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import Octicon from "react-octicon";
+// custom imports
+import GistHeader, { Link } from "./GistHeader";
 
-//Moment lib for Date-Time formate
-import Moment from 'react-moment';
+const Gist = ({ gist }) => {
+  // get owner/author data of the gist
+  const { owner: gist_owner } = gist;
+  // get the meta data of the gist
+  const {
+    description = "",
+    created_at,
+    updated_at,
+    files = {},
+    comments = 0,
+    forks_url,
+    comments_url,
+    html_url = "#",
+  } = gist;
+  // retrieve only File Names from the object of files
+  const fileNames = Object.keys(files);
 
-//Custom component
-import CustomLink from "./CustomLink";
-
-//Styled Icons
-import { Code } from '@styled-icons/boxicons-regular/Code';
-import { Comment } from '@styled-icons/boxicons-regular/Comment';
-import { GitRepoForked } from '@styled-icons/boxicons-regular/GitRepoForked';
-import { StarFill } from '@styled-icons/bootstrap/StarFill';
-
-
-//Styled Icons common Style  
-const sharedIconStyle = css`
-  color: #00f;
-  width:18px;
-  margin-bottom: 14px;
-  margin-right: 4px;
-`;
-
-//Defining Icons
-const CodeIcon = styled(Code)`${sharedIconStyle}`;
-const CommentsIcon = styled(Comment)`${sharedIconStyle}`;
-const ForkIcon = styled(GitRepoForked)`${sharedIconStyle}`;
-const StarIcon = styled(StarFill)`${sharedIconStyle}`;
-
-
-//Wrapper - Container
-const StyledGist = styled.div`
-  width: 50%;
-  margin: auto;
-  border-bottom: 1px solid;
-  padding-bottom: 2rem;
-  margin-bottom: 1rem;
-`;
-
-//Card Header
-const HeadRow = styled.div`
-  display: flex;
-`;
-//Profile image column
-const HeadAvatarCol = styled.div`
-  width: 50%;
-  margin-right: 1rem;
-`;
-//username column
-const HeadLinkCol = styled.div`
-  display: flex;
-  width: 48%;
-`;
-//Profile Image
-const StyledImg = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-`;
-//Clickable Profile
-const AvatarLink = styled.a`
-  text-decoration: none;
-  position: relative;
-  top: -5px;
-  left: 5px;
-  color: #00f;
-`;
-//Create At - Updated At
-const Date = styled.div`
-  margin: 0.5rem 0;
-`;
-
-function Gist({ gistItem }) {
-
-
-  // format files
-  function formateFiles() {
-    if (gistItem.files) {
-      return Object.keys(gistItem.files).map((key) => ({
-        url: gistItem.files?.[key]?.raw_url,
-        name: key,
-      }));
-    }
-    return [];
-  }
-
-  const files = formateFiles();
   return (
-    <StyledGist>
-      <HeadRow>
-        <HeadAvatarCol>
-          <StyledImg src={gistItem?.owner?.avatar_url} />
-          {"  "}
-          <AvatarLink target="_blank" href={gistItem?.owner?.url}>
-            {gistItem?.owner?.login}
-          </AvatarLink>
-        </HeadAvatarCol>
-        <HeadLinkCol>
-          <CodeIcon />
-          <CustomLink href={"#"} label={`${files?.length} Files`} />
-          <CommentsIcon />
-          <CustomLink href={gistItem?.forks_url} label={"Fork"} />
-          <ForkIcon />
-          <CustomLink href={gistItem?.comments_url} label={"Comments"} />
-          <StarIcon />
-          <CustomLink href={"#"} label={"Stars"} />
-        </HeadLinkCol>
-      </HeadRow>
-      <Date>
-        <span style={{ marginRight: "1rem" }}>
-          Created at:
-          <Moment format="YYYY/MM/DD">
-            {gistItem.created_at}
-          </Moment>
-        </span>
-        <span>Last updated:
-          <Moment format="YYYY/MM/DD">
-            {gistItem.updated_at}
-          </Moment>
-        </span>
-      </Date>
-      <div>{gistItem.description}</div>
-      <div style={{ marginTop: "1rem" }}>
-        {files?.length > 0 &&
-          files.map((file) => (
-            <CustomLink href={file?.url} label={file?.name} />
-          ))}
-      </div>
-    </StyledGist>
+    <>
+      <GistHeader
+        gist_owner={gist_owner}
+        gist_meta={{
+          created_at,
+          updated_at,
+          files,
+          comments,
+          comments_url,
+          forks_url,
+          html_url,
+        }}
+      />
+      <GistDescription>{description}</GistDescription>
+      <GistFiles>
+        {fileNames.map((f) => {
+          return (
+            <Link href={files[f].raw_url} target="new" key={f}>
+              <Octicon name="file">{f}</Octicon>
+            </Link>
+          );
+        })}
+      </GistFiles>
+      <Separator />
+    </>
   );
-}
+};
+
+const GistDescription = styled.p`
+  padding-left: 15px;
+  width: 100%;
+  font-size: 17px;
+`;
+
+const GistFiles = styled.div`
+  display: inline-block;
+  color: #0366d6;
+  width: 100%;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  & > a {
+    margin-right: 15px;
+    padding: 5px;
+  }
+`;
+const Separator = styled.hr`
+  border;0.5px solid lightgray;
+`;
+//Props Param Type Checking
+Gist.propTypes = {
+  gist: PropTypes.object.isRequired,
+};
 
 export default Gist;

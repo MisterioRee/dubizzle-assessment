@@ -22,7 +22,7 @@ export const loadAllGist = () => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: LOAD_GIST_LIST_ERROR,
-        payload: "something went wrong",
+        payload: error?.message,
       });
     });
 };
@@ -42,7 +42,7 @@ export const filterGistByUsername = (username) => (dispatch) => {
     .catch((error) => {
       dispatch({
         type: LOAD_GIST_LIST_ERROR,
-        payload: "something went wrong",
+        payload: error?.message,
       });
     });
 };

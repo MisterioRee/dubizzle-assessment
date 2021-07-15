@@ -20,7 +20,7 @@ function gistReducer(state = initialState, action) {
     case LOAD_GIST_LIST_SUCCESS:
       return { ...state, gistList: payload, isLoading: false };
     case LOAD_GIST_LIST_ERROR:
-      return { ...state, isLoading: false };
+      return { ...state, error: payload, isLoading: false };
 
     default:
       return state;
